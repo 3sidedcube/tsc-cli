@@ -8,6 +8,6 @@ metadata:
     backstage.io/techdocs-ref: dir:../..
     github.com/project-slug: 3sidedcube/tsc-cli
 spec:
-  type: service
+  type: cli
   lifecycle: production
   owner: 3sidedcube/platform
