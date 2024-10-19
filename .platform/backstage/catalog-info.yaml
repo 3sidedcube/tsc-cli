@@ -10,4 +10,4 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: 3sidedcube/tsc-cli
+  owner: 3sidedcube/platform
