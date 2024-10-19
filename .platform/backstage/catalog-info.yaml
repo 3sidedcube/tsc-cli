@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tsc-cli
+  description: 3 Sided Cube CLI
+  annotations:
+    backstage.io/source-location: url:https://github.com/3sidedcube/tsc-cli
+    backstage.io/techdocs-ref: dir:../..
+    github.com/project-slug: 3sidedcube/tsc-cli
+spec:
+  type: service
+  lifecycle: production
+  owner: 3sidedcube/tsc-cli
