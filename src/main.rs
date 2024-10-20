@@ -1,4 +1,5 @@
 use clap::{Parser, Subcommand};
+use git2::Repository;
 
 #[derive(Parser)]
 struct Cli {
@@ -39,11 +40,22 @@ fn main() {
                 org,
                 repo_name,
             }) => {
-                println!("GitHub");
+                let url = format!("https://github.com/{}/{}", org, repo_name);
+
                 if *create_repo {
                     println!("Create a repo");
                 }
-                println!("Pointing to {}/{}", org, repo_name);
+
+                let repo = Repository::open(".").unwrap();
+                match repo.remote_set_url("origin", &url) {
+                    Ok(_) => {
+                        println!("New remote URL set.")
+                    }
+                    Err(_) => {
+                        println!("Failed to set new remote URL.")
+                    }
+                }
+
                 println!("Reconfigure current repository to new repo")
             }
             None => {}
