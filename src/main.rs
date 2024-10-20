@@ -40,7 +40,7 @@ fn main() {
                 org,
                 repo_name,
             }) => {
-                let url = format!("https://github.com/{}/{}", org, repo_name);
+                let url = format!("git@github.com:{}/{}.git", org, repo_name);
 
                 if *create_repo {
                     println!("Create a repo");
