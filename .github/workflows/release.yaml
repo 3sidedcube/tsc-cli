@@ -25,24 +25,28 @@ jobs:
           release-type: rust
 
   upload:
-    runs-on: macos-latest
+    name: Build and upload ${{ matrix.platform.target }}
+    runs-on: ${{ matrix.platform.os }}
     needs: release-please
     if: ${{ needs.release-please.outputs.releases_created == 'false' }}
     env:
       TAG_NAME: ${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}
+    strategy:
+      matrix:
+        platform:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-latest-large
+            target: x86_64-apple-darwin
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Rustup add targets
-        run: |
-          rustup target add aarch64-apple-darwin
-          rustup target add x86_64-apple-darwin
+      - name: Rustup target
+        run: rustup target add ${{ matrix.platform.target }}
 
       - name: Cargo build
-        run: |
-          cargo build --release --target aarch64-apple-darwin
-          cargo build --release --target x86_64-apple-darwin
+        run: cargo build --release --target ${{ matrix.platform.target }}
 
       # - name: Upload release artifacts
       #   env:
