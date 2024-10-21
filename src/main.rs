@@ -54,8 +54,8 @@ fn main() {
                     .unwrap_or(String::from("tsc-cli"));
 
                 if *create_repo {
-                    let token = get_gh_auth_token(*reset).unwrap_or_default();
-                    create_gh_repo(&token, &user, org, repo_name).unwrap_or_default();
+                    let token = get_gh_auth_token(*reset).unwrap();
+                    create_gh_repo(&token, &user, org, repo_name).unwrap();
                 }
 
                 let repo = Repository::open(".").unwrap();
