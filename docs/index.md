@@ -1,5 +1,11 @@
-**Documentation**
+# Homebrew Tap | TSC CLI
 
-Welcome to the `/docs` directory of this project!
+## Getting Started
 
-This folder contains all the necessary documentation to help you understand and contribute to the project effectively.
+```bash
+brew tap 3sidedcube/tap git@github.com:3sidedcube/tsc-cli.git
+
+# or
+
+brew tap 3sidedcube/tap https://github.com/3sidedcube/tsc-cli.git
+```
