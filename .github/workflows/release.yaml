@@ -49,7 +49,9 @@ jobs:
         run: cargo build --release --target ${{ matrix.platform.target }}
 
       - name: Create tarbell
-        run: tar -czf target/${{ matrix.platform.target }}/release/tsc-cli-0.1.0-${{ matrix.platform.target }}.tar.gz tsc-cli
+        run: |
+          cd target/${{ matrix.platform.target }}/release
+          tar -czf tsc-cli-0.1.0-${{ matrix.platform.target }}.tar.gz tsc-cli
 
       # - name: Upload release artifacts
       #   env:
