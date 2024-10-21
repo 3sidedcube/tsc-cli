@@ -7,7 +7,7 @@ mod modules;
 #[derive(Parser)]
 struct Cli {
     #[command(subcommand)]
-    command: Option<Commands>,
+    command: Commands,
 }
 
 #[derive(Subcommand)]
@@ -32,7 +32,7 @@ enum Platform {
 enum Commands {
     Migrate {
         #[command(subcommand)]
-        platform: Option<Platform>,
+        platform: Platform,
     },
 }
 
@@ -40,13 +40,13 @@ fn main() {
     let cli = Cli::parse();
 
     match &cli.command {
-        Some(Commands::Migrate { platform }) => match platform {
-            Some(Platform::GitHub {
+        Commands::Migrate { platform } => match platform {
+            Platform::GitHub {
                 create_repo,
                 org,
                 repo_name,
                 reset,
-            }) => {
+            } => {
                 let url = format!("git@github.com:{}/{}.git", org, repo_name);
                 let config = Config::open_default().unwrap();
                 let user = config
@@ -86,8 +86,6 @@ fn main() {
                     Err(e) => println!("Failed to push: {}", e),
                 }
             }
-            None => {}
         },
-        None => {}
     }
 }
