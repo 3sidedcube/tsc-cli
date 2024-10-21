@@ -10,7 +10,7 @@ fn write_gh_auth_token(entry: Entry) -> keyring::Result<String> {
     let mut buffer = String::new();
     io::stdin().read_line(&mut buffer).unwrap();
 
-    entry.set_password(&buffer.trim())?;
+    entry.set_password(buffer.trim())?;
     Ok(entry.get_password()?)
 }
 
