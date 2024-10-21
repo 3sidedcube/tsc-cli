@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use git2::Repository;
-use modules::remote::get_gh_auth_token;
+use modules::remote::{create_gh_repo, get_gh_auth_token};
 
 mod modules;
 
@@ -51,7 +51,9 @@ fn main() {
 
                 if *create_repo {
                     let token = get_gh_auth_token(*reset).unwrap_or_default();
-                    println!("Token: {}", token)
+                    create_gh_repo(&token, org, repo_name).unwrap_or_default();
+
+                    return;
                 }
 
                 let repo = Repository::open(".").unwrap();
