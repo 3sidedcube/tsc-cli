@@ -1,5 +1,8 @@
 use clap::{Parser, Subcommand};
 use git2::Repository;
+use modules::remote::get_gh_auth_token;
+
+mod modules;
 
 #[derive(Parser)]
 struct Cli {
@@ -43,7 +46,8 @@ fn main() {
                 let url = format!("git@github.com:{}/{}.git", org, repo_name);
 
                 if *create_repo {
-                    println!("Create a repo");
+                    let token = get_gh_auth_token(false).unwrap_or_default();
+                    println!("Token: {}", token)
                 }
 
                 let repo = Repository::open(".").unwrap();
