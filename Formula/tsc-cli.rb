@@ -7,6 +7,5 @@ class TscCli < Formula
 
   def install
     bin.install "tsc-cli"
-    bin.install_symlink "tsc-cli" => "tsc"
   end
 end
