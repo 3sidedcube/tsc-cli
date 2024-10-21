@@ -29,7 +29,7 @@ pub fn get_gh_auth_token(reset: bool) -> keyring::Result<String> {
     }
 }
 
-pub fn create_gh_repo(token: &str, org: &str, repo_name: &str) -> reqwest::Result<()> {
+pub fn create_gh_repo(token: &str, user: &str, org: &str, repo_name: &str) -> reqwest::Result<()> {
     let client = reqwest::blocking::Client::new();
     let url = format!("https://api.github.com/orgs/{}/repos", org);
 
@@ -49,7 +49,7 @@ pub fn create_gh_repo(token: &str, org: &str, repo_name: &str) -> reqwest::Resul
     client
         .post(&url)
         .header("Accept", "application/vnd.github+json")
-        .header("User-Agent", "tsc-cli")
+        .header("User-Agent", user)
         .header("X-GitHub-Api-Version", "2022-11-28")
         .bearer_auth(token)
         .json(&data)

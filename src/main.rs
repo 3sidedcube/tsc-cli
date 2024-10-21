@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use git2::Repository;
+use git2::{Config, Cred, PushOptions, RemoteCallbacks, Repository};
 use modules::remote::{create_gh_repo, get_gh_auth_token};
 
 mod modules;
@@ -48,12 +48,14 @@ fn main() {
                 reset,
             }) => {
                 let url = format!("git@github.com:{}/{}.git", org, repo_name);
+                let config = Config::open_default().unwrap();
+                let user = config
+                    .get_string("user.email")
+                    .unwrap_or(String::from("tsc-cli"));
 
                 if *create_repo {
                     let token = get_gh_auth_token(*reset).unwrap_or_default();
-                    create_gh_repo(&token, org, repo_name).unwrap_or_default();
-
-                    return;
+                    create_gh_repo(&token, &user, org, repo_name).unwrap_or_default();
                 }
 
                 let repo = Repository::open(".").unwrap();
@@ -66,7 +68,23 @@ fn main() {
                     }
                 }
 
-                println!("Reconfigure current repository to new repo")
+                let mut remote = repo.find_remote("origin").unwrap();
+                let mut callbacks = RemoteCallbacks::new();
+
+                callbacks.credentials(|_url, _username_from_url, _allowed_types| {
+                    Cred::ssh_key_from_agent("git").map_err(|e| e.into())
+                });
+
+                let mut push_options = PushOptions::new();
+                push_options.remote_callbacks(callbacks);
+
+                match remote.push(
+                    &["refs/heads/main:refs/heads/main"],
+                    Some(&mut push_options),
+                ) {
+                    Ok(_) => println!("Pushed successfully!"),
+                    Err(e) => println!("Failed to push: {}", e),
+                }
             }
             None => {}
         },
