@@ -48,8 +48,11 @@ jobs:
       - name: Cargo build
         run: cargo build --release --target ${{ matrix.platform.target }}
 
+      - name: Create tarbell
+        run: tar -czf target/${{ matrix.platform.target }}/release/tsc-cli-0.1.0-${{ matrix.platform.target }}.tar.gz tsc-cli
+
       # - name: Upload release artifacts
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   run: |
-      #     gh release upload ${{ env.TAG_NAME }} ./target/some-build-artifact.zip
+      #     gh release upload --clobber ${{ env.TAG_NAME }}  target/${{ matrix.platform.target }}/release/tsc-cli-${{ env.TAG_NAME }}-${{ matrix.platform.target }}
