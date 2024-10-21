@@ -3,7 +3,7 @@ use std::io::{self, Write};
 use keyring::{Entry, Result};
 
 fn write_gh_auth_token(entry: Entry) -> Result<String> {
-    print!("\nNo GitHub PAT Token found, please enter: ");
+    print!("\nGitHub PAT Token: ");
     io::stdout().flush().unwrap();
 
     let mut buffer = String::new();

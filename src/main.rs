@@ -22,6 +22,9 @@ enum Platform {
 
         #[arg(help = "Name of the repository")]
         repo_name: String,
+
+        #[arg(short, long)]
+        reset: bool,
     },
 }
 
@@ -42,11 +45,12 @@ fn main() {
                 create_repo,
                 org,
                 repo_name,
+                reset,
             }) => {
                 let url = format!("git@github.com:{}/{}.git", org, repo_name);
 
                 if *create_repo {
-                    let token = get_gh_auth_token(false).unwrap_or_default();
+                    let token = get_gh_auth_token(*reset).unwrap_or_default();
                     println!("Token: {}", token)
                 }
 
