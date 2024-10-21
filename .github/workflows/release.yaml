@@ -27,7 +27,7 @@ jobs:
     name: Build and upload ${{ matrix.platform.target }}
     runs-on: ${{ matrix.platform.os }}
     needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created == 'false' }}
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
     env:
       TAG_NAME: ${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}
     strategy:
